@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Reviews</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Product Details</h2>
+    <button>Back</button>
+
+    <div>
+        <h3>Product Name: Product A</h3>
+        <p>Price: $10.00</p>
+        <p>Rating: 4.5</p>
+    </div>
+
+    <h2>Product Reviews</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Rating</th>
+                <th>Review Content</th>
+                <th>Created Datetime</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>example1@example.com</td>
+                <td>4</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+                <td>2024-02-09 08:30:45</td>
+            </tr>
+            <tr>
+                <td>example2@example.com</td>
+                <td>5</td>
+                <td>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+                <td>2024-02-08 12:15:30</td>
+            </tr>
+            <!-- Add more <tr> elements for additional reviews -->
+        </tbody>
+    </table>
+</body>
+</html>
