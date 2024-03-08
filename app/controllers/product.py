@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, jsonify
 from app.connectors.mysql_connector import engine
 
 from app.models.product import Product
@@ -8,6 +8,12 @@ from flask_login import current_user, login_required
 from sqlalchemy.orm import sessionmaker
 from app.utils.api_response import api_response
 
+from app.decorators.role_checker import role_required
+
+from cerberus import Validator
+from app.validations.product_schema import product_schema
+
+from flask_jwt_extended import jwt_required, get_jwt
 
 # Definisikan Blueprint untuk rute-rute terkait produk
 product_routes = Blueprint('product_routes', __name__)
@@ -47,65 +53,49 @@ def product_home():
         )
     
 @product_routes.route("/product", methods=['POST'])
-@login_required
+@role_required('Admin')
 def product_insert():
+
+    v = Validator(product_schema)
+    json_data = request.get_json()
+    if not v.validate(json_data):
+        # Validate Gagal
+        return jsonify({"error": v.errors}), 400
+    
+    # new_product = Product(
+    #         name=request.form['name'], 
+    #         price=request.form['price'], 
+    #         description=request.form['description']
+    #     )
+    
+    new_product = Product(
+            name=json_data['name'], 
+            price=json_data['price'], 
+            description=json_data['description']
+        )
+    
+    connection = engine.connect()
+    Session = sessionmaker(connection)
+    session = Session()
+    session.begin()
     try:
-        # Menerima data dari formulir HTML
-        name = request.form['name']
-        price = request.form['price']
-        description = request.form['description']
-
-        # Membuat objek Product baru
-        new_product = Product(name=name, price=price, description=description)
-
-        connection = engine.connect()
-        Session = sessionmaker(connection)
-        # Menggunakan SQLAlchemy untuk menyimpan data
-        session = Session()
-        session.begin()
         session.add(new_product)
         session.commit()
 
-        # Operasi sukses
-        return { "message": "Input data berhasil"}
-
     except Exception as e:
-        # Operasi jika gagal
+        # Operation jika gagal
         session.rollback()
         return api_response(
             status_code=500,
             message=str(e),
             data={}
         )
-
-
-# @product_routes.route("/product", methods=['POST'])
-# def product_insert():
-#     new_product = Product(
-#                     name=request.form['name'], 
-#                     price=request.form['price'], 
-#                     description=request.form['description']
-#                     )
-#     session = Session()
-#     session.begin()
-#     try:
-#         session.add(new_product)
-#         session.commit()
-
-#     except Exception as e:
-#         # Operation jika gagal
-#         session.rollback()
-#         return api_response(
-#             status_code=500,
-#             message=str(e),
-#             data={}
-#         )
     
-#     # Operation sukses
-#     return { "message": "Input data berhasil"}
-
+    # Operation sukses
+    return { "message": "Input data berhasil"}
 
 @product_routes.route("/product/<id>", methods=['DELETE'])
+@role_required('Admin')
 def product_delete(id):
     connection = engine.connect()
     Session = sessionmaker(connection)
@@ -127,6 +117,7 @@ def product_delete(id):
         ) 
     
 @product_routes.route("/product/<id>", methods=['PUT'])
+@jwt_required()
 def product_update(id):
     connection = engine.connect()
     Session = sessionmaker(connection)

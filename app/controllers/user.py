@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, jsonify
 from app.connectors.mysql_connector import engine
 from app.models.user import User
 from sqlalchemy import select
@@ -6,6 +6,7 @@ from app.utils.api_response import api_response
 
 from sqlalchemy.orm import sessionmaker
 from flask_login import login_user, logout_user
+from flask_jwt_extended import create_access_token
 
 # Definisikan Blueprint untuk rute-rute terkait produk
 user_routes = Blueprint('user_routes', __name__)
@@ -28,8 +29,6 @@ def do_registration():
         new_user = User(name=name, email=email)
         new_user.set_password(password)
 
-
-
         connection = engine.connect()
         Session = sessionmaker(connection)
         # Menggunakan SQLAlchemy untuk menyimpan data
@@ -50,7 +49,7 @@ def do_registration():
             data={}
         )
 
-
+# Pakai authentikasi token "Login Manager"
 @user_routes.route("/login", methods=['GET'])
 def user_login():
     return render_template("users/login.html")
@@ -84,3 +83,31 @@ def do_user_login():
 def do_user_logout():
     logout_user()
     return redirect('/login')
+
+
+# Pakai authentikasi token "JWT Manager"
+@user_routes.route("/loginjwt", methods=['POST'])
+def do_user_login_jwt():
+    
+    connection = engine.connect()
+    Session = sessionmaker(connection)
+    # Menggunakan SQLAlchemy untuk menyimpan data
+    session = Session()
+
+    try:
+        user = session.query(User).filter(
+            User.email==request.form['email']).first()
+
+        if user == None:
+            return {"message": "Email belum terdaftar"}
+        
+        # Check password
+        if not user.check_password(request.form['password']):
+            return {"message": "Password salah"}
+        
+        access_token = create_access_token(identity=user.id, additional_claims= {"name": user.name, "role": user.role} )
+        return jsonify({"access_token": access_token})
+        
+    except Exception as e :
+        return {"message" : "Login belum berhasil"}
+    

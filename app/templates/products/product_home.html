@@ -79,7 +79,7 @@
                 <td>{{product.description}}</td>
                 <td>
                     <button>Review</button>
-                    <button onclick="openEditProductForm()">Edit</button>
+                    <button id="edit_{{product.id}}" onclick="openEditProductForm(this)">Edit</button>
                     <button id="delete_{{product.id}}" onclick="deleteProduct(this)">Delete</button>
                 </td>
             </tr>
@@ -117,21 +117,46 @@
             document.getElementById("productForm").reset();
         }
 
+        // function openEditProductForm(button) {
+        //     var selected_product_id = button.id.split("_")[1];
+        //     form_method = 'PUT';
+        //     form_url = base_url + "/" + selected_product_id;
+
+        //     var name = $('#name_'+selected_product_id).html();
+        //     var price = $('#price_'+selected_product_id).html();
+        //     var desc = $('#desc_'+selected_product_id).html();
+
+        //     $('#productName').val(name);
+        //     $('#productPrice').val(price);
+        //     $('#productDescription').val(desc);
+
+        //     document.getElementById("newProductForm").style.display = "block";
+        //     document.getElementById("formSection").innerHTML = "Edit Product";
+        // }
+
         function openEditProductForm(button) {
             var selected_product_id = button.id.split("_")[1];
-            form_method = 'PUT';
-            form_url = base_url + "/" + selected_product_id;
+            var edit_url = base_url + "/" + selected_product_id
 
-            var name = $('#name_'+selected_product_id).html();
-            var price = $('#price_'+selected_product_id).html();
-            var desc = $('#desc_'+selected_product_id).html();
+            var requestData = {
+                name: $('#productName').val(),
+                price: $('#productPrice').val(),
+                description: $('#productDescription').val()
+            };
 
-            $('#productName').val(name);
-            $('#productPrice').val(price);
-            $('#productDescription').val(desc);
-
-            document.getElementById("newProductForm").style.display = "block";
-            document.getElementById("formSection").innerHTML = "Edit Product";
+            $.ajax({
+                url: edit_url,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                success: function(response) {
+                    alert(response.message); // Tampilkan pesan respons dari backend
+                    location.reload(); // Muat ulang halaman setelah berhasil diperbarui
+                },
+                error: function(xhr, status, error) {
+                    alert("Terjadi kesalahan: " + error); // Tampilkan pesan kesalahan jika permintaan gagal
+                }
+            });
         }
 
         function closeNewProductForm() {
@@ -141,14 +166,17 @@
         function submitForm(){
             var request_data = {
                 name: $('#productName').val(),
-                price: $('#productPrice').val(),
+                price: parseInt($('#productPrice').val()),
                 description: $('#productDescription'). val()
             }
 
             $.ajax({
                 url: form_url,
-                data: request_data,
-                method: form_method
+                data: JSON.stringify (request_data),
+                method: form_method,
+                headers: {
+                    "Content-type" : "application/json"
+                }
             }).done(function(response){
                 alert(response.message);
                 location.reload();

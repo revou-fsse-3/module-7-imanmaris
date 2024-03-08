@@ -15,7 +15,7 @@ class User(Base, UserMixin):
     name = mapped_column(String(191), nullable=False)
     password = mapped_column(String(191), nullable=False)
     created_at = mapped_column(DateTime(timezone=True), server_default=func.now())
-    
+    role = mapped_column(String(100), nullable=True)
 
     def __repr__(self):
         return f'<User {self.name}>'

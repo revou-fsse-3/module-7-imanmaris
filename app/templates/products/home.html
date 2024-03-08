@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        header{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .user-access {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        footer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+
+        }
+
+        footer, h4{
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        
+        .search-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .product-list {
+            list-style-type: none;
+            padding: 0px 50px 0px 50px;
+            text-align:justify;
+        }
+
+        .product-list li {
+            margin-bottom: 10px;
+        }
+
+        /* Responsiveness for Mobile Devices */
+        @media only screen and (max-width: 600px) {
+            header {
+                font-size: 20px; 
+            }
+            .search-button {
+                padding: 8px 16px; 
+                font-size: 14px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hello, my Module-7 Assignment here</h1>
+        </header>
+    
+        <main>
+            <section class="product-list">
+                <p>Tugas ini mengimplementasikan operasi dasar CRUD (Create(POST), 
+                    Read(GET), Update(PUT), Delete(DELETE)). 
+                    Selain itu, dalam proyek ini akan mengeksplorasi 
+                    metode otentikasi berbasis sesi Atau 
+                    berbasis token menggunakan Flask-login 
+                    dan Flask-JWT-Extended.
+                </p>
+            </section>
+        
+            <section class="user-access">
+                <!-- Menggunakan JavaScript untuk mengarahkan ke halaman register saat tombol diklik -->
+                <button class="search-button" onclick="window.location.href='/register'">Register Here</button>
+                <!-- Menggunakan JavaScript untuk mengarahkan ke halaman login saat tombol diklik -->
+                <button class="search-button" onclick="window.location.href='/login'">Login Here</button>
+            </section>
+        </main>
+    
+        <footer>
+            <h4 id="current-time"></h4>
+            <p ><i>copyright &copy; 2023-2024 by imanmaris</i></p>
+        </footer>
+    </div>
+
+
+    <script>
+        // Fungsi untuk memperbarui waktu saat ini setiap detik
+        function updateCurrentTime() {
+            var currentTime = new Date();
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            var dateTimeString = currentTime.toLocaleDateString('en-US', options);
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
+            var seconds = currentTime.getSeconds();
+            // Format waktu dengan menambahkan nol jika kurang dari 10
+            hours = (hours < 10 ? "0" : "") + hours;
+            minutes = (minutes < 10 ? "0" : "") + minutes;
+            seconds = (seconds < 10 ? "0" : "") + seconds;
+            var timeString = hours + ":" + minutes + ":" + seconds;
+            // Perbarui elemen HTML dengan tanggal dan waktu saat ini
+            document.getElementById("current-time").innerHTML = dateTimeString + " " + timeString;
+        }
+
+        // Panggil fungsi updateCurrentTime setiap detik
+        setInterval(updateCurrentTime, 1000);
+    </script>
+</body>
+</html>
