@@ -9,13 +9,15 @@
 
 **Deliverables :**
 
-|   Localhost =  http://127.0.0.1:5000 |
-|--------------------------|
-|<div align="center"> <img src="/assets/pict/home.png" alt="Home"></div>|
-
 | The Main Purpose |
 |------------------|
 |To Understanding of connecting a Flask application to a MySQL database and implementing basic CRUD (Create(POST), Read(GET), Update(PUT), Delete(DELETE)) operation. Additionally, in this project will explore session-based OR token-based authentication methods using Flask-login and Flask-JWT-Extended|
+
+<div align="center">  <b>Localhost =  http://127.0.0.1:5000 </b>
+</div>
+<div align="center"><img src="/assets/pict/home.png" alt="Home"></div>
+
+
 
 ### Documentation API with POSTMAN
 
