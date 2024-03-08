@@ -11,7 +11,7 @@
 
 |   Localhost =  http://127.0.0.1:5000 |
 |--------------------------|
-|<div align="center"> <img src="/assets/pict/home.png" alt="Home" style="width: 55%;"></div>|
+|<div align="center"> <img src="/assets/pict/home.png" alt="Home"></div>|
 
 | The Main Purpose |
 |------------------|
