@@ -13,11 +13,13 @@
 |------------------|
 |To Understanding of connecting a Flask application to a MySQL database and implementing basic CRUD (Create(POST), Read(GET), Update(PUT), Delete(DELETE)) operation. Additionally, in this project will explore session-based OR token-based authentication methods using Flask-login and Flask-JWT-Extended|
 
+<br>
+
 <div align="center">  <b>Localhost =  http://127.0.0.1:5000 </b>
 </div>
-<div align="center"><img src="/assets/pict/home.png" alt="Home"></div>
+<div align="center"><img width="60%" img  src="/assets/pict/home.png" alt="Home"></div>
 
-
+<br>
 
 ### Documentation API with POSTMAN
 
@@ -25,7 +27,7 @@
 
 |       Tool     | Tool Website | My Link Documentation API with PostMan |
 |----------------|--------------|------------------------------------|
-|<img width="100%" img src="https://voyager.postman.com/logo/postman-logo-icon-orange.svg">|[PostMAN](https://postman.com/) |[My temporary API Documentation in here](https://documenter.getpostman.com/view/32137902/2sA2xfZtxH)|
+|<img width="150" img src="https://voyager.postman.com/logo/postman-logo-icon-orange.svg">|[PostMAN](https://postman.com/) |[My temporary API Documentation in here](https://documenter.getpostman.com/view/32137902/2sA2xfZtxH)|
 
 
 
